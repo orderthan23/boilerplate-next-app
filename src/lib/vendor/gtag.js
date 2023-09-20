@@ -19,15 +19,15 @@ export const event = ({ action, category, label, value }) => {
 	});
 };
 
-export const useAnalytics = () => {
+export const useAnalytics = ({ action = '', category = '', label = '' }) => {
 	const router = useRouter();
 	useEffect(() => {
 		const handleRouteChange = (url) => {
 			pageview(url);
 			event({
-				action: 'familyAlbum',
-				category: '아이앨범',
-				label: '아이앨범',
+				action,
+				category,
+				label,
 				value: location.pathname + location.search,
 			});
 		};
