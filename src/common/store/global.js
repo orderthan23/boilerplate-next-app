@@ -9,7 +9,7 @@ import FLAGS from '@constants/flags';
 export const globalInitialState = {
 	isLoading: false, //로딩 여부
 };
-//
+
 export const useGlobalStore = zustandBuilder(globalInitialState, `globalStore`);
 
 export const useGlobalStoreSelector = zustandMultiSelector(useGlobalStore);
