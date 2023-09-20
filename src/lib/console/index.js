@@ -1,6 +1,4 @@
 import { isEqual, reduce } from 'lodash';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
 
 export default class CustomLogger {
 	static info(...param) {
@@ -76,12 +74,5 @@ export default class CustomLogger {
 		this.info('%cSTATUS : ', 'color : green', status);
 		this.info('%cDATA : ', 'color : yellow', data);
 		this.groupEnd();
-	}
-
-	static useNextPageChangeLogger() {
-		const router = useRouter();
-		const pageChangeWatcher = () => this.info(`%cRoute Change : `, 'color: lightpink; font-size : 14px;  font-weight : bold;', router.pathname);
-
-		useEffect(pageChangeWatcher, [router.pathname]);
 	}
 }

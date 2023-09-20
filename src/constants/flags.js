@@ -9,6 +9,14 @@
  */
 
 export default class FLAGS {
+	static ACT_FLAG = {
+		//성공
+		SUCCESS: 1,
+		//경고(문제 있음)
+		WARNING: 8,
+		//에러
+		ERROR: 9,
+	};
 	//가족 관계
 	static FAMILY_TYPE = {
 		//엄마

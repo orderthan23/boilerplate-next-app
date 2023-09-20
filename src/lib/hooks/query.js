@@ -1,11 +1,11 @@
 import useGlobalStore, { useGlobalStoreAction } from '@store/global';
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { getHasNext } from '@function/util';
 import { QueryOptions } from '@constants/query';
 import QueryUtils from '@lib/function/query';
 import { useScrollDetectRef } from '@lib/hooks/common';
 import CustomError from '@lib/error';
+import { getHasNext } from '@lib/function/util';
 
 export const useCustomInfinityQuery = (
 	{ queryKey, queryFn, getNextPageParam = getHasNext, cacheTime = QueryOptions.DEFAULT_CACHE_TIME, staleTime = QueryOptions.DEFAULT_STALE_TIME },

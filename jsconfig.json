@@ -2,37 +2,37 @@
   "compilerOptions": {
     "paths": {
       "@component/*": [
-        "common/component/*"
+        "src/common/components/*"
       ],
       "@function/*": [
-        "function/*"
+        "src/function/*"
       ],
       "@hooks/*": [
-        "common/hooks/*"
+        "src/common/hooks/*"
       ],
       "@model/*": [
-        "model/*"
+        "src/model/*"
       ],
       "@store/*": [
-        "common/store/*"
+        "src/common/store/*"
       ],
       "@service/*": [
-        "service/*"
+        "src/services/*"
       ],
       "@constants/*": [
-        "constants/*"
+        "src/constants/*"
       ],
       "@mobile/*": [
-        "mobile/*"
+        "src/mobile/*"
       ],
       "@lib/*": [
-        "lib/*"
+        "src/lib/*"
       ],
       "@queries/*": [
-        "queries/*"
+        "src/queries/*"
       ],
       "@screens/*": [
-        "screens/*"
+        "src/screens/*"
       ]
     }
   }

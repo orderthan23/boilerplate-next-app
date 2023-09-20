@@ -1,9 +1,10 @@
 import { create } from 'zustand';
 import CustomLogger from '@lib/console';
 import { devtools, persist } from 'zustand/middleware';
-import { immer } from 'zustand/middleware/immer';
+
 import { isEqual } from 'lodash';
 import { useEffect } from 'react';
+import { immer } from 'zustand/middleware/immer';
 
 export const zustandBuilder = (initialState, storeName) => {
 	const storeNameWithMode = `${storeName}-${process.env.NEXT_PUBLIC_DEPLOY_MODE}`;

@@ -5,9 +5,9 @@ import axios from 'axios';
 import axiosRetry from 'axios-retry';
 import { FileUploadAxios, GeneralAxios } from '@service/config/axios';
 import { HTTP } from '@lib/constant';
-import { isDev } from '@function/util';
 import { useGlobalStoreAction } from '@store/global';
 import fp from 'lodash/fp';
+import { isDev } from '@lib/function/util';
 
 export class HttpManager {
 	static REQUEST = 'request';
