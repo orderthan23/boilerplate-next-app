@@ -1,7 +1,5 @@
-import axios from 'axios';
-import { cacheAdapterEnhancer } from 'axios-extensions';
-import { HttpManager } from '@lib/service';
-import { isDev } from '@function/util';
+import axios from "axios";
+import { HttpManager } from "@lib/service";
 
 /**
  * @author 고종현
@@ -17,8 +15,7 @@ export const GeneralAxios = axios.create({
 	contentType: 'application/json; charset=UTF-8;',
 	baseURL: `${process.env.NEXT_PUBLIC_API_PATH}`,
 	validateStatus: false,
-	headers: { 'Content-Encoding': 'gzip', },
-	adapter: cacheAdapterEnhancer(axios.defaults.adapter, { enabledByDefault: false }),
+	headers: { 'Content-Encoding': 'gzip' },
 });
 
 //파일 업로드용
@@ -26,7 +23,7 @@ export const FileUploadAxios = axios.create({
 	contentType: 'multipart/form-data',
 	baseURL: `${process.env.NEXT_PUBLIC_API_PATH}`,
 	validateStatus: false,
-	headers: { 'Content-Encoding': 'gzip', },
+	headers: { 'Content-Encoding': 'gzip' },
 });
 
 //파일 다운로드용
