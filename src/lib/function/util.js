@@ -25,3 +25,7 @@ export const setVH = () => {
 	const vh = window.innerHeight * 0.01;
 	document.documentElement.style.setProperty('--vh', `${vh}px`);
 };
+
+export const getHasNext = (lastPage) => {
+	return lastPage.hasNext ? lastPage.currentPage + 1 : undefined;
+};
