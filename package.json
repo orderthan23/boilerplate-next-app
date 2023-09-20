@@ -3,9 +3,15 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"dev": "next dev",
-		"build": "next build",
-		"start": "next start",
+		"local": "env-cmd -f .env.local next dev",
+		"staging": "env-cmd -f .env.staging next dev",
+		"prod": "env-cmd -f .env.production next dev",
+		"build:local": "env-cmd -f .env.local next build",
+		"build:staging": "env-cmd -f .env.staging next build",
+		"build:prod": "env-cmd -f .env.production next build",
+		"deploy:local": "env-cmd -f .env.local next build && next export",
+		"deploy:staging": "env-cmd -f .env.staging next build && next export",
+		"deploy:prod": "env-cmd -f .env.production next build && next export",
 		"lint": "next lint",
 		"prepare": "husky install"
 	},
