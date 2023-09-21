@@ -2,7 +2,9 @@ import HighFunc from '@lib/function/hof';
 import CustomError from '@lib/error';
 
 export class QueryKeys {
-	static TEST_QUERY = ['TEST_QUERY'];
+	static EXAMPLE_QUERY_GROUP = ['EXAMPLE_QUERY_GROUP'];
+	static PEOPLE_LIST_QUERY = [...QueryKeys.EXAMPLE_QUERY_GROUP, 'PEOPLE_LIST_QUERY'];
+	static PERSON_QUERY = [...QueryKeys.EXAMPLE_QUERY_GROUP, 'PERSON_QUERY'];
 }
 
 export class QueryOptions {

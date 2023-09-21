@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useTransition } from 'react';
+import React, { useState } from 'react';
 import { isEmpty } from 'lodash';
 import CustomAlert from '@lib/alert';
-import ExampleService from '@service/exampleService';
 import Modal from '@lib/components/Modal';
 import { uid } from 'react-uid';
+import ExampleQuery from '@queries/exmple';
 
 const assertPerson = (person) => {
 	if (isEmpty(person.name.trim())) {
@@ -24,29 +24,46 @@ const assertPerson = (person) => {
 };
 
 const ProfileDetail = ({ personId }) => {
-	const [isLoading, startTransition] = useTransition();
-	const [profile, setProfile] = useState(null);
+	const { data: profile, isLoading, isError } = ExampleQuery.usePerson(personId);
+
+	const mutatePostPerson = ExampleQuery.usePost({
+		onSuccess: (httpResult) => {
+			if (httpResult) {
+				CustomAlert.success('등록되었습니다.');
+			}
+		},
+	});
+	const mutatePutPerson = ExampleQuery.usePut({
+		onSuccess: (httpResult) => {
+			if (httpResult) {
+				CustomAlert.success('변경되었습니다.');
+			}
+		},
+	});
+
+	const mutateDeletePerson = ExampleQuery.useDelete({
+		onSuccess: (httpResult) => {
+			if (httpResult) {
+				CustomAlert.success('삭제되었습니다.');
+			}
+		},
+	});
+
 	const handleDeletePerson = () => {
 		CustomAlert.question(`${profile.name}회원을 삭제하시겠습니까?`, () => {
-			ExampleService.deletePerson({ personId: profile.id }).then((res) => {
-				CustomAlert.success('삭제되었습니다.');
-			});
+			mutateDeletePerson(profile.id);
 		});
 	};
 
 	const handlePostPerson = (request) => {
 		CustomAlert.question('등록하시겠습니까?', () => {
-			ExampleService.postPerson(request).then((res) => {
-				CustomAlert.success('등록되었습니다.');
-			});
+			mutatePostPerson(request);
 		});
 	};
 
 	const handlePutPerson = (request) => {
 		CustomAlert.question(`${profile.name}회원을 수정 하시겠습니까?`, () => {
-			ExampleService.putPerson({ ...request, personId: profile.id }).then(() => {
-				CustomAlert.success('변경되었습니다.');
-			});
+			mutatePutPerson({ personId: profile.id, ...request });
 		});
 	};
 
@@ -54,9 +71,9 @@ const ProfileDetail = ({ personId }) => {
 		e.preventDefault();
 		const request = {
 			name: e.target.name.value,
-			age: e.target.age.value,
-			weight: e.target.weight.value,
-			height: e.target.height.value,
+			age: Number(e.target.age.value),
+			weight: Number(e.target.weight.value),
+			height: Number(e.target.height.value),
 			job: e.target.job.value,
 		};
 
@@ -72,102 +89,7 @@ const ProfileDetail = ({ personId }) => {
 		}
 	};
 
-	const preloadProfile = () => {
-		startTransition(async () => {
-			const res = await ExampleService.fetchPerson({ personId });
-			setProfile(res.data);
-		});
-	};
-
-	useEffect(() => {
-		if (personId) {
-			preloadProfile();
-		} else {
-			setProfile({
-				name: '',
-				age: 10,
-				weight: 50,
-				height: 150,
-				job: '',
-			});
-		}
-	}, [personId]);
-
-	if (!isLoading && profile) {
-		return (
-			<form onSubmit={handleSubmitPerson}>
-				<div className={'card'}>
-					<div
-						className="form-group"
-						style={{ marginBottom: '20px' }}
-					>
-						<div className="form-control">
-							<label>
-								<span className="mr-10">이름 :</span>
-								<input
-									type="text"
-									name="name"
-									defaultValue={profile.name}
-								/>
-							</label>
-						</div>
-						<div className="form-control">
-							<label>
-								<span className="mr-10">나이 :</span>
-								<input
-									type="number"
-									name="age"
-									defaultValue={profile.age}
-								/>
-							</label>
-						</div>
-						<div className="form-control">
-							<label>
-								<span className="mr-10">신장 :</span>
-								<input
-									type="number"
-									name="height"
-									defaultValue={profile?.height}
-								/>
-							</label>
-						</div>
-						<div className="form-control">
-							<label>
-								<span className="mr-10">무게 :</span>
-								<input
-									type="number"
-									name="weight"
-									defaultValue={profile?.weight}
-								/>
-							</label>
-						</div>
-						<div className="form-control">
-							<label>
-								<span className="mr-10">직책 :</span>
-								<input
-									type="text"
-									name="job"
-									defaultValue={profile?.job}
-								/>
-							</label>
-						</div>
-					</div>
-
-					<div>
-						<button
-							className="mr-10"
-							onClick={handleDeletePerson}
-						>
-							삭제하기
-						</button>
-						<button type="submit">{personId ? '수정하기' : '등록하기'}</button>
-					</div>
-				</div>
-			</form>
-		);
-	}
-
-	if (!isLoading && !profile) {
+	if (isError) {
 		return (
 			<div className={'card'}>
 				<h4>오류발생</h4>
@@ -175,10 +97,85 @@ const ProfileDetail = ({ personId }) => {
 		);
 	}
 
+	if (isLoading) {
+		return (
+			<div className={'card'}>
+				<h4>로딩중...</h4>
+			</div>
+		);
+	}
+
 	return (
-		<div className={'card'}>
-			<h4>로딩중...</h4>
-		</div>
+		<form onSubmit={handleSubmitPerson}>
+			<div className={'card'}>
+				<div
+					className="form-group"
+					style={{ marginBottom: '20px' }}
+				>
+					<div className="form-control">
+						<label>
+							<span className="mr-10">이름 :</span>
+							<input
+								type="text"
+								name="name"
+								defaultValue={profile.name}
+							/>
+						</label>
+					</div>
+					<div className="form-control">
+						<label>
+							<span className="mr-10">나이 :</span>
+							<input
+								type="number"
+								name="age"
+								defaultValue={profile.age}
+							/>
+						</label>
+					</div>
+					<div className="form-control">
+						<label>
+							<span className="mr-10">신장 :</span>
+							<input
+								type="number"
+								name="height"
+								defaultValue={profile?.height}
+							/>
+						</label>
+					</div>
+					<div className="form-control">
+						<label>
+							<span className="mr-10">무게 :</span>
+							<input
+								type="number"
+								name="weight"
+								defaultValue={profile?.weight}
+							/>
+						</label>
+					</div>
+					<div className="form-control">
+						<label>
+							<span className="mr-10">직책 :</span>
+							<input
+								type="text"
+								name="job"
+								defaultValue={profile?.job}
+							/>
+						</label>
+					</div>
+				</div>
+
+				<div>
+					<button
+						className="mr-10"
+						type={'button'}
+						onClick={handleDeletePerson}
+					>
+						삭제하기
+					</button>
+					<button type="submit">{personId ? '수정하기' : '등록하기'}</button>
+				</div>
+			</div>
+		</form>
 	);
 };
 const ProfileCard = ({ profile }) => {
@@ -212,16 +209,8 @@ const ProfileCard = ({ profile }) => {
 };
 //전통적인 방식에 apiCall
 const ReactQuery = () => {
-	const [isLoading, startTransition] = useTransition();
-	const [people, setPeople] = useState([]);
+	const { data: people, isLoading, isError } = ExampleQuery.usePeople();
 	const [isOpenRegister, setIsOpenRegister] = useState(false);
-
-	useEffect(() => {
-		startTransition(async () => {
-			const res = await ExampleService.fetchPeople();
-			setPeople(res?.data ?? []);
-		});
-	}, []);
 
 	return (
 		<>
@@ -239,12 +228,15 @@ const ReactQuery = () => {
 				</div>
 				<div className={'people_wrap'}>
 					{isLoading && <p>로딩중...</p>}
-					{people.map((profile) => (
-						<ProfileCard
-							key={uid(profile)}
-							profile={profile}
-						/>
-					))}
+					{isError && <p>오류가 발생하였습니다.</p>}
+					{!isLoading &&
+						!isError &&
+						people.map((profile) => (
+							<ProfileCard
+								key={uid(profile)}
+								profile={profile}
+							/>
+						))}
 				</div>
 				<Modal
 					isVisible={isOpenRegister}

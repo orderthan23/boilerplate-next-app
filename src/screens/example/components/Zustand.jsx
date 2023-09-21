@@ -56,9 +56,9 @@ const ProfileDetail = ({ personId }) => {
 		e.preventDefault();
 		const request = {
 			name: e.target.name.value,
-			age: e.target.age.value,
-			weight: e.target.weight.value,
-			height: e.target.height.value,
+			age: Number(e.target.age.value),
+			weight: Number(e.target.weight.value),
+			height: Number(e.target.height.value),
 			job: e.target.job.value,
 		};
 
@@ -158,6 +158,7 @@ const ProfileDetail = ({ personId }) => {
 					<div>
 						<button
 							className="mr-10"
+							type={'button'}
 							onClick={handleDeletePerson}
 						>
 							삭제하기

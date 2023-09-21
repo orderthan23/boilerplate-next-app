@@ -33,12 +33,12 @@
       "job": "BE"
     },
     {
-      "id": 5,
-      "name": "최봉석",
       "age": 22,
       "height": 179,
       "weight": 50,
-      "job": "BE"
+      "name": "최봉석",
+      "job": "BE",
+      "id": 5
     }
   ]
 }
