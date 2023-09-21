@@ -68,7 +68,11 @@ const ProfileDetail = ({ personId }) => {
 				handlePutPerson(request);
 			}
 		} catch ([message, reason]) {
-			CustomAlert.error(message, () => void e.target?.[reason]?.focus());
+			CustomAlert.error(message, () => {
+				const errorTarget = e.target?.[reason];
+				console.log('errorTarget :', errorTarget);
+				errorTarget?.focus();
+			});
 		}
 	};
 
