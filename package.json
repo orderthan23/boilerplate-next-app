@@ -14,7 +14,7 @@
 		"deploy:prod": "env-cmd -f .env.production next build && next export",
 		"lint": "next lint",
 		"mocking": "json-server --watch db.json --port 5008",
-		"prepare": "husky install && cp -a .husky/. .git/hooks/"
+		"postinstall": "husky install && shx rm -rf .git/hooks && shx ln -s ../.husky .git/hooks"
 	},
 	"dependencies": {
 		"@tanstack/react-query": "^4.35.0",
@@ -38,10 +38,11 @@
 	},
 	"devDependencies": {
 		"@tanstack/react-query-devtools": "^4.22.0",
-		"husky": "^8.0.3",
 		"env-cmd": "^10.1.0",
+		"husky": "^8.0.3",
+		"json-server": "^0.17.3",
 		"prettier": "^3.0.3",
-		"json-server": "^0.17.3"
+		"shx": "^0.3.4"
 	},
 	"lint-staged": {
 		"*.{js,jsx}": [
