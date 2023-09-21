@@ -1,6 +1,5 @@
-import useGlobalStore, { useGlobalStoreAction } from '@store/global';
+import { useGlobalStoreAction } from '@store/global';
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect } from 'react';
 import { QueryOptions } from '@constants/query';
 import QueryUtils from '@lib/function/query';
 import { useScrollDetectRef } from '@lib/hooks/common';
@@ -52,13 +51,7 @@ export const useCustomInfinityQuery = (
 	};
 };
 export const useCustomQuery = (options) => {
-	const { albumNo } = useGlobalStore((state) => state.currentAlbum);
-	const queryClient = useQueryClient();
 	const { hideLoading } = useGlobalStoreAction();
-
-	useEffect(() => {
-		queryClient.invalidateQueries(options.queryKey);
-	}, [albumNo]);
 
 	return useQuery({
 		...options,
