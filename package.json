@@ -13,7 +13,8 @@
     "deploy:staging": "env-cmd -f .env.staging next build && next export",
     "deploy:prod": "env-cmd -f .env.production next build && next export",
     "lint": "next lint",
-    "mocking": "json-server --watch db.json --port 5008"
+    "mocking": "json-server --watch db.json --port 5008",
+    "prepare": "husky install && cp -a .husky/. .git/hooks/"
   },
   "dependencies": {
     "@tanstack/react-query": "^4.35.0",
@@ -40,5 +41,11 @@
     "env-cmd": "^10.1.0",
     "prettier": "^3.0.3",
     "json-server": "^0.17.3"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
   }
 }

@@ -1,0 +1,41 @@
+
+.container {
+    padding: 20px;
+    overflow: scroll;
+    height: 100vh;
+}
+
+.container .people_wrap {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.container .people_wrap .card {
+    width: 400px;
+    background-color: #fff;
+    color: #000;
+    padding: 10px;
+}
+
+.container .people_wrap .card h4 {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-bottom: 20px;
+    color: #68c0b5;
+}
+
+.container .people_wrap .card .age_box {
+    color: #fb8713;
+    margin-bottom: 10px;
+}
+
+.mr-10 {
+    margin-right: 10px;
+}
+
+.mb-10 {
+    margin-bottom: 10px;
+}
