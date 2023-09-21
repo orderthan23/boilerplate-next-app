@@ -1,0 +1,44 @@
+{
+  "people": [
+    {
+      "id": 1,
+      "name": "고종현",
+      "age": 25,
+      "height": 179,
+      "weight": 50,
+      "job": "FE"
+    },
+    {
+      "id": 2,
+      "name": "이찬환",
+      "age": 27,
+      "height": 181,
+      "weight": 50,
+      "job": "CTO"
+    },
+    {
+      "id": 3,
+      "name": "안준영",
+      "age": 19,
+      "height": 190,
+      "weight": 50,
+      "job": "FE"
+    },
+    {
+      "id": 4,
+      "name": "이재형",
+      "age": 35,
+      "height": 171,
+      "weight": 50,
+      "job": "BE"
+    },
+    {
+      "id": 5,
+      "name": "최봉석",
+      "age": 22,
+      "height": 179,
+      "weight": 50,
+      "job": "BE"
+    }
+  ]
+}
