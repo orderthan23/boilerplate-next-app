@@ -2,9 +2,10 @@ import React, { useEffect, useState, useTransition } from 'react';
 import { isEmpty } from 'lodash';
 import CustomAlert from '@lib/alert';
 import ExampleService from '@service/exampleService';
-import COLORS from '@constants/colors';
 import Modal from '@lib/components/Modal';
 import { uid } from 'react-uid';
+import { useExampleStore, useExampleStoreReset } from '@screens/example/store/store';
+import { useExampleStoreAction } from '@screens/example/store/action';
 
 const assertPerson = (person) => {
 	if (isEmpty(person.name.trim())) {
@@ -97,14 +98,14 @@ const ProfileDetail = ({ personId }) => {
 	if (!isLoading && profile) {
 		return (
 			<form onSubmit={handleSubmitPerson}>
-				<div style={{ width: '400px', backgroundColor: 'white', color: COLORS.BLACK, padding: '10px' }}>
+				<div className={'card'}>
 					<div
 						className="form-group"
 						style={{ marginBottom: '20px' }}
 					>
 						<div className="form-control">
 							<label>
-								<span style={{ marginRight: '10px' }}>이름 :</span>
+								<span className="mr-10">이름 :</span>
 								<input
 									type="text"
 									name="name"
@@ -114,7 +115,7 @@ const ProfileDetail = ({ personId }) => {
 						</div>
 						<div className="form-control">
 							<label>
-								<span style={{ marginRight: '10px' }}>나이 :</span>
+								<span className="mr-10">나이 :</span>
 								<input
 									type="number"
 									name="age"
@@ -124,7 +125,7 @@ const ProfileDetail = ({ personId }) => {
 						</div>
 						<div className="form-control">
 							<label>
-								<span style={{ marginRight: '10px' }}>신장 :</span>
+								<span className="mr-10">신장 :</span>
 								<input
 									type="number"
 									name="height"
@@ -134,7 +135,7 @@ const ProfileDetail = ({ personId }) => {
 						</div>
 						<div className="form-control">
 							<label>
-								<span style={{ marginRight: '10px' }}>무게 :</span>
+								<span className="mr-10">무게 :</span>
 								<input
 									type="number"
 									name="weight"
@@ -144,7 +145,7 @@ const ProfileDetail = ({ personId }) => {
 						</div>
 						<div className="form-control">
 							<label>
-								<span style={{ marginRight: '10px' }}>직책 :</span>
+								<span className="mr-10">직책 :</span>
 								<input
 									type="text"
 									name="job"
@@ -155,8 +156,13 @@ const ProfileDetail = ({ personId }) => {
 					</div>
 
 					<div>
-						<button onClick={handleDeletePerson}>삭제하기</button>
-						<button type="submit">수정하기</button>
+						<button
+							className="mr-10"
+							onClick={handleDeletePerson}
+						>
+							삭제하기
+						</button>
+						<button type="submit">{personId ? '수정하기' : '등록하기'}</button>
 					</div>
 				</div>
 			</form>
@@ -165,35 +171,15 @@ const ProfileDetail = ({ personId }) => {
 
 	if (!isLoading && !profile) {
 		return (
-			<div style={{ width: '400px', backgroundColor: 'white', color: COLORS.BLACK, padding: '10px' }}>
-				<h4
-					style={{
-						textOverflow: 'ellipsis',
-						overflow: 'hidden',
-						whiteSpace: 'nowrap',
-						marginBottom: '20px',
-						color: COLORS.PRIMARY,
-					}}
-				>
-					오류발생
-				</h4>
+			<div className={'card'}>
+				<h4>오류발생</h4>
 			</div>
 		);
 	}
 
 	return (
-		<div style={{ width: '400px', backgroundColor: 'white', color: COLORS.BLACK, padding: '10px' }}>
-			<h4
-				style={{
-					textOverflow: 'ellipsis',
-					overflow: 'hidden',
-					whiteSpace: 'nowrap',
-					marginBottom: '20px',
-					color: COLORS.PRIMARY,
-				}}
-			>
-				로딩중...
-			</h4>
+		<div className={'card'}>
+			<h4>로딩중...</h4>
 		</div>
 	);
 };
@@ -201,32 +187,17 @@ const ProfileCard = ({ profile }) => {
 	const [openDetail, setOpenDetail] = useState(false);
 
 	return (
-		<div style={{ width: '400px', backgroundColor: 'white', color: COLORS.BLACK, padding: '10px' }}>
-			<h4
-				style={{
-					textOverflow: 'ellipsis',
-					overflow: 'hidden',
-					whiteSpace: 'nowrap',
-					marginBottom: '20px',
-					color: COLORS.PRIMARY,
-				}}
-			>
-				{profile.name ?? '리뷰'}
-			</h4>
-			<div
-				style={{
-					color: COLORS.SECONDARY_COLOR,
-					marginBottom: '10px',
-				}}
-			>
+		<div className="card">
+			<h4>{profile.name ?? '리뷰'}</h4>
+			<div className={'age_box'}>
 				<small>나이 : {profile?.age ?? '알 수없음'}</small>
 			</div>
 			<div>
 				<div>
-					<p style={{ marginBottom: '10px' }}>
+					<p className="mb-10">
 						신장 : <strong>{profile?.height}</strong>
 					</p>
-					<p style={{ marginBottom: '10px' }}>
+					<p className="mb-10">
 						무게 : <strong>{profile?.weight}</strong>
 					</p>
 				</div>
@@ -244,8 +215,11 @@ const ProfileCard = ({ profile }) => {
 //전통적인 방식에 apiCall
 const Zustand = () => {
 	const [isLoading, startTransition] = useTransition();
-	const [people, setPeople] = useState([]);
 	const [isOpenRegister, setIsOpenRegister] = useState(false);
+	const people = useExampleStore((state) => state.people);
+	const { setPeople } = useExampleStoreAction();
+
+	useExampleStoreReset();
 
 	useEffect(() => {
 		startTransition(async () => {
@@ -255,24 +229,37 @@ const Zustand = () => {
 	}, []);
 
 	return (
-		<div>
-			<h1>회원목록</h1>
-			<div style={{ marginTop: '10px', display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-				{isLoading && <p>로딩중...</p>}
-				{people.map((profile) => (
-					<ProfileCard
-						key={uid(profile)}
-						profile={profile}
-					/>
-				))}
+		<>
+			<div className="container">
+				<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+					<h1>회원목록</h1>
+					<div>
+						<button
+							type="button"
+							onClick={() => setIsOpenRegister(true)}
+						>
+							등록하기
+						</button>
+					</div>
+				</div>
+
+				<div className={'people_wrap'}>
+					{isLoading && <p>로딩중...</p>}
+					{people.map((profile) => (
+						<ProfileCard
+							key={uid(profile)}
+							profile={profile}
+						/>
+					))}
+				</div>
+				<Modal
+					isVisible={isOpenRegister}
+					setIsVisible={setIsOpenRegister}
+				>
+					<ProfileDetail personId={null} />
+				</Modal>
 			</div>
-			<Modal
-				isVisible={isOpenRegister}
-				setIsVisible={setIsOpenRegister}
-			>
-				<ProfileDetail personId={null} />
-			</Modal>
-		</div>
+		</>
 	);
 };
 export default Zustand;

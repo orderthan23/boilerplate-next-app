@@ -12,14 +12,14 @@
     gap: 10px;
 }
 
-.container .people_wrap .card {
+.card {
     width: 400px;
     background-color: #fff;
     color: #000;
     padding: 10px;
 }
 
-.container .people_wrap .card h4 {
+.card h4 {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -27,7 +27,7 @@
     color: #68c0b5;
 }
 
-.container .people_wrap .card .age_box {
+.card .age_box {
     color: #fb8713;
     margin-bottom: 10px;
 }

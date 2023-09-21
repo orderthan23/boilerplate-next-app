@@ -154,8 +154,13 @@ const ProfileDetail = ({ personId }) => {
 					</div>
 
 					<div>
-						<button onClick={handleDeletePerson}>삭제하기</button>
-						<button type="submit">수정하기</button>
+						<button
+							className="mr-10"
+							onClick={handleDeletePerson}
+						>
+							삭제하기
+						</button>
+						<button type="submit">{personId ? '수정하기' : '등록하기'}</button>
 					</div>
 				</div>
 			</form>
@@ -221,7 +226,17 @@ const Typical = () => {
 	return (
 		<>
 			<div className="container">
-				<h1>회원목록</h1>
+				<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+					<h1>회원목록</h1>
+					<div>
+						<button
+							type="button"
+							onClick={() => setIsOpenRegister(true)}
+						>
+							등록하기
+						</button>
+					</div>
+				</div>
 				<div className={'people_wrap'}>
 					{isLoading && <p>로딩중...</p>}
 					{people.map((profile) => (
