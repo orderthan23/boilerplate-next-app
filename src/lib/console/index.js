@@ -69,6 +69,7 @@ export default class CustomLogger {
 	};
 
 	static httpWatcher(response) {
+		if(!!true) console.log(12);
 		const { config, status, data } = response;
 		this.groupCollapsed('%cHTTP Call Results : ', 'color: olive; font-size : 14px;  font-weight : bold;', config?.url);
 		this.info('%cSTATUS : ', 'color : green', status);
