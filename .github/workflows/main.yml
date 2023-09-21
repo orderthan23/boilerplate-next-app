@@ -1,0 +1,33 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Set a branch to deploy
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛂
+        uses: actions/checkout@v2.3.4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies 📦
+        run: npm ci
+
+      - name: Build 🏗️
+        run: npm run build:local
+
+      - name: Export Static Site 🗃️
+        run: npm run deploy:local
+
+      - name: Deploy to GitHub Pages 🚀
+        uses: JamesIves/github-pages-deploy-action@4.4.3
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: out # The folder the action should deploy.
