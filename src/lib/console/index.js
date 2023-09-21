@@ -70,7 +70,7 @@ export default class CustomLogger {
 
 	static httpWatcher(response) {
 		if (true) {
-			console.log(1);
+			console.log(21);
 		}
 		const { config, status, data } = response;
 		this.groupCollapsed('%cHTTP Call Results : ', 'color: olive; font-size : 14px;  font-weight : bold;', config?.url);
