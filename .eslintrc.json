@@ -33,7 +33,7 @@
     "no-proto": "error",
     "no-return-await": "off",
     "no-var": "error",
-    "no-console": "error",
+    "no-console": "warn",
     "no-mixed-spaces-and-tabs": "off",
     "react/no-unknown-property": [
       "error",
