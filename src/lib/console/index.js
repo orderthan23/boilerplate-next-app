@@ -69,6 +69,7 @@ export default class CustomLogger {
 	};
 
 	static httpWatcher(response) {
+		// prettier-ignore
 		if (true) {
 			console.log(21);
 		}
